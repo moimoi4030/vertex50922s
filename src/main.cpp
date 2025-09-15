@@ -77,15 +77,19 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 
+
 void opcontrol() {
 	// local
 	int currPower = 0;
+
 	while (true) {
 		optical.set_led_pwm(100);
 
+		
+
 		// get left y and right y positions
-		float power = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-		float turn = 0.7 * master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+		int power = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+		int turn = 0.7 * master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 		// move
 		int rampPower = (power - currPower) * 0.2;
 		currPower += rampPower;
@@ -123,6 +127,6 @@ void opcontrol() {
 		} else {
 			stop();
 		}
+		pros::delay(10);                              // Run for 10 ms then update
 	}
-	pros::delay(10);                              // Run for 10 ms then update
 }
