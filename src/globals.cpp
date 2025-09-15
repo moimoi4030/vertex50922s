@@ -5,16 +5,16 @@
 lemlib::Drivetrain drivetrain (&left, // left motor group
                               &right, // right motor group
                               15, // 10 inch track width
-                              lemlib::Omniwheel::OLD_325, // using new 4" omnis
+                              3.25, // using new 4" omnis
                               333.33, // drivetrain rpm is 360
                               8// horizontal drift is 2 (for now)
 );
 
 
 // horizontal tracking wheel
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, -5.75);
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, 2, -6.75);
 // vertical tracking wheel
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, -0.5);
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, 2, -1.25);
 
 // odometry settings
 lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel 1, set to null

@@ -1,12 +1,8 @@
 #include "main.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "autons.hpp"
-#include "macro/color.hpp"
-#include "macro/subsystem.hpp"
 #include "globals.hpp"
 #include "helpers.hpp"
-
-int selectColor = 1;
 
 // initialize function. Runs on program startup
 void initialize() {
@@ -20,13 +16,6 @@ void initialize() {
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
 
-			if(selectColor == 0) {
-				pros::lcd::print(4, "NONE");
-			} else if(selectColor == 1) {
-				pros::lcd::print(4, "RED");
-			} else if(selectColor == 2) {
-				pros::lcd::print(4, "BLUE");
-			}
             // delay to save resources
             pros::delay(10);
 			
@@ -71,7 +60,7 @@ void competition_initialize() {}
 
 
 void autonomous() {
-  
+	skill();
 }
 
 /**
@@ -100,7 +89,7 @@ void opcontrol() {
 		// move
 		int rampPower = (power - currPower) * 0.2;
 		currPower += rampPower;
-		chassis.arcade(currPower, turn, 1, 0.25);
+		chassis.arcade(currPower, turn, 1, 0.4);
 		
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
 			autonomous();

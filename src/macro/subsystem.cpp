@@ -18,17 +18,19 @@ void ScoreLowGoal() {
 void ScoreHoardMidGoal(int scoreColor, int scoreBlocks) {
     int detectBlocks = 0;
     stage12.move(127);
-    hoard.move(127);
+    hoard.move(-127);
 
     while (detectBlocks <= scoreBlocks) {
         if (detectColor() == scoreColor) {
-            stage3.move(70);
-            pros::delay(200);
+            stage3.move(-70);
+
+            pros::delay(300);
             stage3.move(0);
             detectBlocks++;
         } else {
             stage3.move(127);
             sup3.move(127);
+
             pros::delay(300);
             stage3.move(0);
             sup3.move(0);
@@ -41,14 +43,34 @@ void ScoreHoardMidGoal(int scoreColor, int scoreBlocks) {
 }
 
 // score từ hoard ra long goal
+void ScoreHoardLongGoal(int scoreColor, int scoreBlocks) {
+    int detectBlocks = 0;
+    stage12.move(127);
+    hoard.move(127);
 
-// intake lên mid goal
+    while (detectBlocks <= scoreBlocks) {
+        if (detectColor() == scoreColor) {
+            stage3.move(127);
+            sup3.move(-127);
 
-// score từ intake vô mid goal
+            pros::delay(300);
+            stage3.move(0);
+            sup3.move(0);
+            detectBlocks++;
+        } else {
+            stage3.move(127);
+            sup3.move(127);
 
-// intake lên long goal
+            pros::delay(300);
+            stage3.move(0);
+            sup3.move(0);
+        }
+        pros::delay(10); 
+    }
 
-// score từ intake vô long goal
+    stop();
+    return;
+}
 
 // idle
 void Idle() {
