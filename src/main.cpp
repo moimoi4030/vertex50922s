@@ -3,6 +3,8 @@
 #include "autons.hpp"
 #include "globals.hpp"
 #include "helpers.hpp"
+#include "pros/misc.h"
+#include <algorithm>
 
 // initialize function. Runs on program startup
 void initialize() {
@@ -81,6 +83,8 @@ void autonomous() {
 void opcontrol() {
 	// local
 	int currPower = 0;
+	int currTurn = 0;
+	const int RAMP = 5;
 
 	while (true) {
 		optical.set_led_pwm(100);
@@ -88,12 +92,24 @@ void opcontrol() {
 		
 
 		// get left y and right y positions
-		int power = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-		int turn = 0.7 * master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-		// move
-		int rampPower = (power - currPower) * 0.2;
-		currPower += rampPower;
-		chassis.arcade(currPower, turn, 1, 0.4);
+		int targetPower = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);   // tiến/lùi
+        int targetTurn  = 0.8 * master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);  // xoay
+
+        targetPower = std::clamp(targetPower, -127, 127);
+        targetTurn  = std::clamp(targetTurn, -127, 127);
+
+        if (currPower < targetPower)
+            currPower += RAMP;
+        else if (currPower > targetPower)
+            currPower -= RAMP;
+
+        if (currTurn < targetTurn)
+            currTurn += RAMP;
+        else if (currTurn > targetTurn)
+            currTurn -= RAMP;
+
+        // Lái bằng chassis.arcade
+        chassis.arcade(currPower, currTurn, 1, 0.45);
 		
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
 			autonomous();
