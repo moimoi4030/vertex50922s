@@ -98,10 +98,19 @@ void opcontrol() {
         targetPower = std::clamp(targetPower, -127, 127);
         targetTurn  = std::clamp(targetTurn, -127, 127);
 
-        if (currPower < targetPower)
-            currPower += RAMP;
-        else if (currPower > targetPower)
-            currPower -= RAMP;
+		if(currPower * targetPower < 0) {
+			if (currPower < targetPower) {
+				currPower += 2 * RAMP;
+			} else if (currPower > targetPower) {
+				currPower -= 2 * RAMP;
+			}
+		} else {
+			if (currPower < targetPower) {
+				currPower += RAMP;
+			} else if (currPower > targetPower) {
+				currPower -= RAMP;
+			}
+		}
 
         if (currTurn < targetTurn)
             currTurn += RAMP;
