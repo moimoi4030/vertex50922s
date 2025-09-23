@@ -3,27 +3,27 @@
 #include "autons.hpp"
 #include "globals.hpp"
 #include "helpers.hpp"
-#include "pros/misc.h"
+#include "lemlib/logger/logger.hpp"
 #include <algorithm>
 
 // initialize function. Runs on program startup
 void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
-    // print position to brain screen
-    pros::Task screentask ([&]() {
+	pros::Task screen_task([&]() {
         while (true) {
             // print robot location to the brain screen
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
 
+			lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             // delay to save resources
-            pros::delay(10);
-			
+            pros::delay(20);
         }
-    });
+    }); 
 }
+
 /**
  * Runs while the robot is in the disabled state of Field Management System or
  * the VEX Competition Switch, following either autonomous or opcontrol. When
@@ -83,20 +83,16 @@ void autonomous() {
 void opcontrol() {
 	// local
 	int currPower = 0;
-	int currTurn = 0;
-	const int RAMP = 5;
+	const int RAMP = 10;
 
 	while (true) {
 		optical.set_led_pwm(100);
 
-		
-
 		// get left y and right y positions
-		int targetPower = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);   // tiến/lùi
-        int targetTurn  = 0.8 * master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);  // xoay
+		int targetPower = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);  
+        int currTurn  = 0.8 * master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X); 
 
         targetPower = std::clamp(targetPower, -127, 127);
-        targetTurn  = std::clamp(targetTurn, -127, 127);
 
 		if(currPower * targetPower < 0) {
 			if (currPower < targetPower) {
@@ -112,12 +108,6 @@ void opcontrol() {
 			}
 		}
 
-        if (currTurn < targetTurn)
-            currTurn += RAMP;
-        else if (currTurn > targetTurn)
-            currTurn -= RAMP;
-
-        // Lái bằng chassis.arcade
         chassis.arcade(currPower, currTurn, 1, 0.45);
 		
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
@@ -152,6 +142,5 @@ void opcontrol() {
 		} else {
 			stop();
 		}
-		pros::delay(10);                              // Run for 10 ms then update
 	}
 }

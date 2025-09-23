@@ -2,4 +2,5 @@
 
 void IntakeIntoHoard();
 void ScoreLowGoal();
-void ScoreHoardMidGoal(int scoreColor, int scoreBlocks);
+void ScoreHoardMidGoal(int scoreColor);
+void ScoreHoardLongGoal(int scoreColor);

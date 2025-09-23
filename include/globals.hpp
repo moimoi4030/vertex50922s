@@ -25,9 +25,9 @@ inline pros::adi::Pneumatics loader('B', 0);
 
 // sensors
 inline pros::Optical optical(20);
-inline pros::Imu imu(10);
-inline pros::Rotation horizontal_encoder(20);
-inline pros::Rotation vertical_encoder(21);
+inline pros::Imu imu(9);
+inline pros::Rotation horizontal_encoder(18);
+inline pros::Rotation vertical_encoder(19);
 inline pros::AIVision vision(22);
 
 

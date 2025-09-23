@@ -15,59 +15,40 @@ void ScoreLowGoal() {
 }
 
 // score từ hoard ra mid goal
-void ScoreHoardMidGoal(int scoreColor, int scoreBlocks) {
-    int detectBlocks = 0;
+void ScoreHoardMidGoal(int scoreColor) {
     stage12.move(127);
     hoard.move(-127);
-
-    while (detectBlocks <= scoreBlocks) {
+     
+    while (true) {
+        optical.set_led_pwm(100);
         if (detectColor() == scoreColor) {
-            stage3.move(-70);
-
-            pros::delay(300);
-            stage3.move(0);
-            detectBlocks++;
-        } else {
+            stage3.move(-127);
+        } else if (detectColor() != scoreColor) {
             stage3.move(127);
             sup3.move(127);
-
-            pros::delay(300);
-            stage3.move(0);
-            sup3.move(0);
         }
-        pros::delay(10); 
+        pros::delay(20);
     }
-
     stop();
     return;
 }
 
 // score từ hoard ra long goal
-void ScoreHoardLongGoal(int scoreColor, int scoreBlocks) {
-    int detectBlocks = 0;
+void ScoreHoardLongGoal(int scoreColor) {
     stage12.move(127);
-    hoard.move(127);
-
-    while (detectBlocks <= scoreBlocks) {
+    hoard.move(-127);
+     
+    while (true) {
+        optical.set_led_pwm(100);
         if (detectColor() == scoreColor) {
             stage3.move(127);
             sup3.move(-127);
-
-            pros::delay(300);
-            stage3.move(0);
-            sup3.move(0);
-            detectBlocks++;
-        } else {
+        } else if (detectColor() != scoreColor) {
             stage3.move(127);
             sup3.move(127);
-
-            pros::delay(300);
-            stage3.move(0);
-            sup3.move(0);
         }
-        pros::delay(10); 
+        pros::delay(20);
     }
-
     stop();
     return;
 }
