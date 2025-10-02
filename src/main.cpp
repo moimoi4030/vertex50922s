@@ -3,7 +3,6 @@
 #include "autons.hpp"
 #include "globals.hpp"
 #include "helpers.hpp"
-#include "lemlib/logger/logger.hpp"
 #include <algorithm>
 
 // initialize function. Runs on program startup

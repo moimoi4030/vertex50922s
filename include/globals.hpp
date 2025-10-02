@@ -4,7 +4,6 @@
 #include "api.h"
 #include "pros/adi.hpp"
 #include "pros/optical.hpp"
-#include "pros/ai_vision.hpp"
 
 // controller
 inline pros::Controller master(pros::E_CONTROLLER_MASTER);
@@ -28,7 +27,6 @@ inline pros::Optical optical(20);
 inline pros::Imu imu(9);
 inline pros::Rotation horizontal_encoder(18);
 inline pros::Rotation vertical_encoder(19);
-inline pros::AIVision vision(22);
 
 
 extern lemlib::Drivetrain drivetrain;
