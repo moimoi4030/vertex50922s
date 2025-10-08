@@ -3,12 +3,13 @@
 #include "autons.hpp"
 #include "globals.hpp"
 #include "helpers.hpp"
+#include "macro/color.hpp"
 #include <algorithm>
 
 // initialize function. Runs on program startup
 void initialize() {
     pros::lcd::initialize(); // initialize brain screen
-    chassis.calibrate(); // calibrate sensors
+    chassis.calibrate(true); // calibrate sensors
 	pros::Task screen_task([&]() {
         while (true) {
             // print robot location to the brain screen
@@ -85,11 +86,12 @@ void opcontrol() {
 	const int RAMP = 10;
 
 	while (true) {
+		blueSort();
 		optical.set_led_pwm(100);
 
 		// get left y and right y positions
 		int targetPower = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);  
-        int currTurn  = 0.8 * master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X); 
+        int currTurn  = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X); 
 
         targetPower = std::clamp(targetPower, -127, 127);
 

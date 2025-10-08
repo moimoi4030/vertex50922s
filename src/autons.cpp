@@ -21,19 +21,16 @@ void blueSide() {
 
 void skill() {
     chassis.setPose(0, 0, 0);
-    chassis.moveToPoint(0, 43, 800);
+    chassis.moveToPose(0, 43, 0, 1000);
     chassis.waitUntilDone();
     loader.extend();
-    chassis.cancelAllMotions();
-
-    chassis.turnToHeading(90, 500, {.maxSpeed = 80});
+    chassis.moveToPose(0, 43, 90, 1000);
     chassis.waitUntilDone();
     chassis.cancelAllMotions();
     pros::delay(300);
 
     IntakeIntoHoard();
-    chassis.setPose(0, 43, 90);
-    chassis.moveToPoint(16, 43, 1200, {.maxSpeed = 80});
+    chassis.moveToPose(16, 43, 90, 1000);
     chassis.waitUntilDone();
     pros::delay(2500);
 

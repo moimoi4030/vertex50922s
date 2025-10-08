@@ -19,14 +19,14 @@ inline pros::Motor sup3(13);
 inline pros::Motor hoard(16);
 
 // pneumatics
-inline pros::adi::Pneumatics sortAlign('A', 0);
+inline pros::adi::Pneumatics sortAlign('F', 0);
 inline pros::adi::Pneumatics loader('B', 0);
 
 // sensors
 inline pros::Optical optical(20);
-inline pros::Imu imu(9);
-inline pros::Rotation horizontal_encoder(18);
-inline pros::Rotation vertical_encoder(19);
+inline pros::Imu imu(12);
+inline pros::Rotation horizontal_encoder(8);
+inline pros::Rotation vertical_encoder(9);
 
 
 extern lemlib::Drivetrain drivetrain;

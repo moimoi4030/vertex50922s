@@ -15,10 +15,10 @@ lemlib::Drivetrain drivetrain (&left,
 // horizontal tracking wheel
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, 2, -2.24);
 // vertical tracking wheel
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, 2, -0.71);
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, 2, 0.71);
 
 // odometry settings
-lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1
+lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel 1
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
                             &horizontal_tracking_wheel, // horizontal tracking wheel 1
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
@@ -27,9 +27,9 @@ lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1
 
 
 
-lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
+lemlib::ControllerSettings lateral_controller(2, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              15, // derivative gain (kD)
+                                              4, // derivative gain (kD)
                                               0, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
@@ -40,9 +40,9 @@ lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
 
 
 // angular PID controller
-lemlib::ControllerSettings angular_controller(2, // proportional gain (kP)
+lemlib::ControllerSettings angular_controller(3, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              24, // derivative gain (kD)
+                                              6, // derivative gain (kD)
                                               0, // anti windup
                                               1, // small error range, in degrees
                                               100, // small error range timeout, in milliseconds

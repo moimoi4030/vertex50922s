@@ -30,11 +30,11 @@ void colorSort(int color) {
     }
 }
 
-void redSort() {
+void redSort() { 
     colorSort(RED);
 }
 
-void blueSort() {
+void blueSort() { 
     colorSort(BLUE);
 }
 
