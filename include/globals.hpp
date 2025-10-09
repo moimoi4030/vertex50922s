@@ -2,15 +2,17 @@
 
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "api.h"
+#include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
+#include "pros/motors.h"
 #include "pros/optical.hpp"
 
 // controller
 inline pros::Controller master(pros::E_CONTROLLER_MASTER);
 
 // drivetrain
-inline pros::MotorGroup left({1, -2, -5});
-inline pros::MotorGroup right({6, -7, 10});
+inline pros::MotorGroup left({1, -2, -5}, pros::MotorGearset::blue);
+inline pros::MotorGroup right({6, -7, 10}, pros::MotorGearset::blue);
 
 // subsystems
 inline pros::Motor stage12(11);
@@ -19,14 +21,14 @@ inline pros::Motor sup3(13);
 inline pros::Motor hoard(16);
 
 // pneumatics
-inline pros::adi::Pneumatics sortAlign('F', 0);
+inline pros::adi::Pneumatics sortAlign('A', 0);
 inline pros::adi::Pneumatics loader('B', 0);
 
 // sensors
 inline pros::Optical optical(20);
 inline pros::Imu imu(12);
 inline pros::Rotation horizontal_encoder(8);
-inline pros::Rotation vertical_encoder(9);
+inline pros::Rotation vertical_encoder(-9);
 
 
 extern lemlib::Drivetrain drivetrain;

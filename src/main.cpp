@@ -19,7 +19,7 @@ void initialize() {
 
 			lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
             // delay to save resources
-            pros::delay(20);
+            pros::delay(100);
         }
     }); 
 }
@@ -62,7 +62,7 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	skill();
+	blueSide();
 }
 
 /**

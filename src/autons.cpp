@@ -13,10 +13,32 @@ void redSide() {
 }
 
 void blueSide() {
-    chassis.setPose(0, 0, 0);
-    chassis.turnToHeading(90, 500);
-    chassis.moveToPoint(5, 0, 1000);
+    while (true) {
+        blueSort();
+    }
+    chassis.setPose(-50, 10, -20);
+    chassis.moveToPoint(-58, 30, 1000, {.maxSpeed = 127, .earlyExitRange = 3});
+
+    loader.extend();
+    IntakeIntoHoard();
+
+    chassis.moveToPoint(-73, 51, 1000, {.maxSpeed = 70});
+    chassis.waitUntil(4);
+    loader.retract();
     chassis.waitUntilDone();
+    loader.extend();
+    pros::delay(500);
+
+    chassis.moveToPoint(-58, 30, 1000, {.forwards = false, .maxSpeed = 127, .earlyExitRange = 3});
+    
+    
+
+    
+
+    /*loader.extend();
+    IntakeIntoHoard();
+    chassis.moveToPoint(-8, 35, 1000, {.maxSpeed = 50});
+    chassis.waitUntilDone();*/
 }
 
 void skill() {
