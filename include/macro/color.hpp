@@ -8,3 +8,4 @@ void colorSort(int color);
 void redSort();
 void blueSort();
 void offSort();
+void switchSort();

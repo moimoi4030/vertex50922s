@@ -10,7 +10,7 @@
 void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(true); // calibrate sensors
-	pros::Task screen_task([&]() {
+	pros::Task task([&]() {
         while (true) {
             // print robot location to the brain screen
             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
@@ -62,7 +62,9 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	blueSide();
+	//leftSide();
+	rightSide();
+	//rightSideLo();
 }
 
 /**
@@ -85,32 +87,20 @@ void opcontrol() {
 	int currPower = 0;
 	const int RAMP = 10;
 
+
 	while (true) {
-		blueSort();
 		optical.set_led_pwm(100);
 
 		// get left y and right y positions
-		int targetPower = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);  
-        int currTurn  = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X); 
+		int Power = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);  
+        int Turn  = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X); 
 
-        targetPower = std::clamp(targetPower, -127, 127);
-
-		if(currPower * targetPower < 0) {
-			if (currPower < targetPower) {
-				currPower += 2 * RAMP;
-			} else if (currPower > targetPower) {
-				currPower -= 2 * RAMP;
-			}
-		} else {
-			if (currPower < targetPower) {
-				currPower += RAMP;
-			} else if (currPower > targetPower) {
-				currPower -= RAMP;
-			}
+        chassis.arcade(Power, Turn, 1, 0.45);
+		
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+			switchSort();
 		}
 
-        chassis.arcade(currPower, currTurn, 1, 0.45);
-		
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
 			autonomous();
 		}
@@ -122,24 +112,21 @@ void opcontrol() {
 		
 		// sort + align	
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-			sortAlign.toggle();
+			descore.toggle();
 		}
 		
 		// intake
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
 			intake();
-			sortAlign.extend();
 		// stage 1
 		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
 			stage1();
 		// stage 2
 		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
 			stage2();
-			sortAlign.retract();
 		// stage 3
 		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
 			longGoal();
-			sortAlign.retract();
 		} else {
 			stop();
 		}

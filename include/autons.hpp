@@ -1,4 +1,7 @@
 #pragma once
 
-void blueSide();
+void rightSide();
+void rightSideLo();
+void leftSide();
+void soloAWP();
 void skill();

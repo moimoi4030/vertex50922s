@@ -21,7 +21,7 @@ inline pros::Motor sup3(13);
 inline pros::Motor hoard(16);
 
 // pneumatics
-inline pros::adi::Pneumatics sortAlign('A', 0);
+inline pros::adi::Pneumatics descore('F', 0);
 inline pros::adi::Pneumatics loader('B', 0);
 
 // sensors

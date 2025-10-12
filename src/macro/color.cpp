@@ -23,21 +23,47 @@ int detectColor() {
 
 void colorSort(int color) {
     if(detectColor() == color) {
-        sup3.move(-127);
-        pros::delay(200);
+        stage3.move(-127);
+        pros::delay(400);
 
         intake();
-    }
+    } 
 }
 
 void redSort() { 
     colorSort(RED);
+    master.clear_line(0);
+    master.set_text(0, 0, "BLUE");
 }
 
 void blueSort() { 
     colorSort(BLUE);
+    master.clear_line(0);
+    master.set_text(0, 0, "RED");
 }
 
 void offSort() {
     colorSort(NONE);
+    master.clear_line(0);
+    master.set_text(0, 0, "OFF");
+}
+
+int currentMode = BLUE;
+
+void switchSort() {
+    if (currentMode == NONE) currentMode = BLUE;
+    else if (currentMode == BLUE) currentMode = RED;
+    else if (currentMode == RED) currentMode = NONE;
+    
+    switch (currentMode) {
+        case BLUE:
+            blueSort();
+            break;
+        case RED:
+            redSort();
+            break;
+        case NONE:
+            offSort();
+            break;
+    }
 }
