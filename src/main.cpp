@@ -4,7 +4,7 @@
 #include "globals.hpp"
 #include "helpers.hpp"
 #include "macro/color.hpp"
-#include <algorithm>
+#include "pros/misc.h"
 
 // initialize function. Runs on program startup
 void initialize() {
@@ -62,9 +62,11 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	//leftSide();
-	rightSide();
-	//rightSideLo();
+	//Test();
+	Long7Rush();
+	//Long9();
+	//rightSide();
+	//soloAWP();
 }
 
 /**
@@ -83,11 +85,6 @@ void autonomous() {
 
 
 void opcontrol() {
-	// local
-	int currPower = 0;
-	const int RAMP = 10;
-
-
 	while (true) {
 		optical.set_led_pwm(100);
 
@@ -127,6 +124,8 @@ void opcontrol() {
 		// stage 3
 		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
 			longGoal();
+		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+			intakeHold();
 		} else {
 			stop();
 		}

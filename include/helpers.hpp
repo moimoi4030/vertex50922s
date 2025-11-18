@@ -4,4 +4,6 @@ void intake();
 void stage1();
 void stage2();
 void longGoal();
+void preLongGoal();
+void intakeHold();
 void stop();

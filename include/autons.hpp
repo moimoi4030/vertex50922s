@@ -1,7 +1,11 @@
 #pragma once
 
-void rightSide();
-void rightSideLo();
-void leftSide();
+// async tasks
+void ekfLocalization(void*);
+
+void Test();
+
+void Long9();
+void Long7Rush();
+void Long7Center2();
 void soloAWP();
-void skill();
