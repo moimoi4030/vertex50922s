@@ -4,8 +4,7 @@
 void ekfLocalization(void*);
 
 void Test();
-
-void Long9();
+void skill();
 void Long7Rush();
-void Long7Center2();
+void Long8Center1();
 void soloAWP();

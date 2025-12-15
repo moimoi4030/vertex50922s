@@ -1,9 +1,7 @@
 #pragma once
 
-void intake();
-void stage1();
-void stage2();
-void longGoal();
-void preLongGoal();
-void intakeHold();
-void stop();
+void Intake();
+void LowGoal();
+void MidGoal();
+void LongGoal();
+void Stop();

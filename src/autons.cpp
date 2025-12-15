@@ -1,138 +1,123 @@
 #include "autons.hpp"
+#include "lemlib/chassis/chassis.hpp"
 #include "main.h"
 #include "globals.hpp"
 #include "macro/color.hpp"
-#include "macro/subsystem.hpp"
 #include "helpers.hpp"
-
-#include "localization/ekf.hpp"
-#include "motion/ramsete.hpp"
-#include "pros/rtos.hpp"
-#include <math.h>
-
-// ekf task
-void ekfLocalization(void*) {
-    EKF ekf(0, 17, 0, 0.01);
-    double track_width = 13.0;
-    double wheel_radius = 3.25 / 2;
-
-    while (true) {
-        double vL = left.get_actual_velocity() * (2 * M_PI * wheel_radius) / 60.0;
-        double vR = right.get_actual_velocity() * (2 * M_PI * wheel_radius) / 60.0;
-
-        double v = (vL + vR) / 2.0;
-        double w = (vR - vL) / track_width;
-
-        ekf.predict(v, w);
-
-        ekf.update(chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
-
-        State filtered = ekf.getState();
-
-        chassis.setPose(filtered.x, filtered.y, filtered.theta);
-
-        pros::delay(10);
-    }
-}
-
 
 
 // test   
 void Test() {
-    chassis.setPose(0, 17, 0);
-    intake();
-    chassis.moveToPoint(0, 30, 1500, {.minSpeed = 40, .earlyExitRange = 3});
-    chassis.moveToPose(10, 42, 27, 2000, {.maxSpeed = 70});
 
-    chassis.turnToHeading(130, 1000);
-
-    chassis.moveToPoint(32, 22, 2000, {.maxSpeed = 70, .minSpeed = 30, .earlyExitRange = 6});
-    chassis.moveToPose(32, 4, 180, 2800, {.maxSpeed = 70});
-    chassis.waitUntil(2);
-    loader.extend();
-
-    chassis.moveToPoint(32, 16, 2000, {.forwards = false});
-    chassis.turnToPoint(30.3, 27.5, 1500);
-    loader.retract();
-    Idle();
-    chassis.moveToPoint(30.3, 27.5, 1500);
-
-    chassis.waitUntilDone();
-    preLongGoal();
-    pros::delay(500);
-    longGoal();
-
-    pros::delay(3600);
-    chassis.moveToPoint(32, 18, 2000, {.forwards = false});
-
-    chassis.moveToPose(4, 40, -5, 5000);
 }
 
 // autonomous routines
 void Long7Rush() {
-    chassis.setPose(0, 17, 0);
+    chassis.setPose(15, 24, 0);
+    Intake();
+
+    chassis.moveToPoint(24, 49, 850);
+    chassis.waitUntil(12);
+    Loader.extend();
+    /*chassis.turnToPoint(44.5, 24, 700);
+
+    chassis.moveToPoint(44.5, 24, 1200, {.minSpeed = 120});*/
+    chassis.moveToPose(48, 10, 180, 3200, {.lead = 0.4});
+
+    chassis.moveToPoint(48, 38, 1100, {.forwards = false}, false);
+    LongGoal();
+
+    pros::delay(3000);
+    Stop();
+    Wing.extend();
+
+    chassis.moveToPoint(39.5, 36.5, 1000);
+    chassis.moveToPose(39.5, 55, 180, 5000, {.forwards = false, .lead = 0.1});
+    chassis.waitUntil(10);
+    Wing.retract();
+    
+    
+
+    /*chassis.setPose(0, 17, 0); // bắt đầu
     intake();
 
-    chassis.moveToPose(10, 42, 27, 1400);
-    chassis.waitUntil(15);
+    chassis.moveToPose(10, 42, 27, 1000); // 3 banh
+    chassis.waitUntil(15.3);
     loader.extend();
-
-    chassis.turnToHeading(130, 800);
-
-    chassis.moveToPoint(31.5, 14, 2000, {.minSpeed = 50, .earlyExitRange = 3});
-    chassis.moveToPose(31.5, -3, 180, 1200, {.maxSpeed = 70});
-
-
-    chassis.moveToPoint(31.5, 12, 2000, {.forwards = false});
-    chassis.turnToPoint(30, 30, 1000);
+    chassis.waitUntilDone();
+    pros::delay(300);
     loader.retract();
-    chassis.moveToPoint(30, 30, 1500);
 
+
+    chassis.turnToHeading(130, 700);
+
+    chassis.moveToPoint(35, 14, 1200);
+    chassis.turnToHeading(180, 700);
+    loader.extend();
+    chassis.waitUntilDone();
+    chassis.setPose(35, 15, 180);
+
+    chassis.moveToPoint(35, 0, 850, {.maxSpeed = 100});
+
+    chassis.waitUntilDone();
+    chassis.getPose();
+    chassis.moveToPoint(35, 20, 700, {.forwards = false});
+    chassis.waitUntilDone();
+    
+    loader.retract();
+    chassis.turnToHeading(-11, 900);
+    chassis.waitUntilDone();
+
+
+    chassis.moveToPoint(chassis.getPose().x - 2.3, 36, 1100);
     chassis.waitUntilDone();
     longGoal();
 
-    pros::delay(3000);
-    chassis.moveToPoint(30.5, 19, 4000, {.forwards = false});
+    pros::delay(3200);
     descore.extend();
-    chassis.moveToPose(15, 60, 0, 1500);
-    chassis.waitUntil(26);
+    chassis.swingToHeading(-90, DriveSide::RIGHT, 700, {.minSpeed = 100, .earlyExitRange = 11});
+    chassis.moveToPose(45.7, 55, 176, 1500, {.forwards = false});
+    chassis.waitUntil(30);
     descore.retract();
 
     chassis.waitUntilDone();
-    chassis.turnToHeading(-30, 1000);
+    chassis.turnToHeading(-115, 1000);*/
 }
 
-void Long7Center2() {
-    chassis.setPose(0, 17, 0);
-    intake();
+void Long8Center1() {
+    chassis.setPose(-15, 24, 0);
+    Intake();
 
-    chassis.moveToPoint(0, 30, 1500, {.minSpeed = 40, .earlyExitRange = 3});
-    chassis.moveToPose(-10, 42, -27, 2000, {.maxSpeed = 70});
+    chassis.moveToPoint(-24, 49, 1000, {.minSpeed = 70, .earlyExitRange = 2}, false);
 
-    /*chassis.turnToHeading(130, 1000);
-    chassis.moveToPoint(32, 20, 2000, {.maxSpeed = 100, .minSpeed = 50, .earlyExitRange = 4});
-    chassis.moveToPose(32, 3, 179, 1500, {.maxSpeed = 60});
-    chassis.waitUntil(4);
-    loader.extend();
-
-    chassis.moveToPoint(31, 20, 2000, {.forwards = false});
-    chassis.turnToHeading(0, 1500);
-    loader.retract();
-    chassis.moveToPoint(31, 30, 1500);
-
+    chassis.moveToPose(-49.5, 62.3, -70, 1100, {.lead = 0.5, .maxSpeed = 80});
     chassis.waitUntilDone();
-    longGoal();
+    Loader.extend();
 
-    pros::delay(3000);
-    chassis.moveToPoint(31, 22, 2000, {.forwards = false});
-    descore.extend();
-    chassis.moveToPose(26, 33, -14, 2000, {.minSpeed = 80, .earlyExitRange = 3});
-    chassis.moveToPose(17, 54, 0, 1500, {.maxSpeed = 80});
-    chassis.waitUntil(12);
-    descore.retract();
+    chassis.moveToPoint(-23, 49, 700, {.forwards = false});
 
-    chassis.waitUntilDone();
-    chassis.turnToHeading(-30, 1000);*/
+    chassis.turnToPoint(-13, 55.6, 500, {.forwards = false});
+    chassis.moveToPoint(-13, 55.6, 300, {.forwards = false}, false);
+    MidGoal();
+    pros::delay(1000);
+    Intake();
+    pros::delay(200);
+
+    chassis.moveToPoint(-46, 24, 1200, {.minSpeed = 120});
+    chassis.moveToPose(-48.5, 10, 180, 1500, {.lead = 0.5});
+    chassis.moveToPoint(-46, 40, 1100, {.forwards = false}, false);
+    LongGoal();
+
+    pros::delay(2000);
+    Stop();
+    Wing.extend();
+
+    chassis.swingToPoint(-34, 32, DriveSide::LEFT, 800, {.minSpeed = 120, .earlyExitRange = 4});
+    chassis.moveToPoint(-34, 32, 900);
+    chassis.turnToHeading(180, 700);
+    chassis.moveToPoint(-32.5, 55, 1300, {.forwards = false});
+    chassis.waitUntil(6);
+    Wing.retract();
 }
 
 void soloAWP() {
@@ -140,5 +125,17 @@ void soloAWP() {
 }
 
 void skill() {
-    
+    chassis.setPose(15, 24, 0);
+    Intake();
+
+    chassis.moveToPoint(22.7, 49, 1000, {}, false);
+    Loader.extend();
+    chassis.turnToPoint(49.5, 20, 600);
+
+    chassis.moveToPoint(49.5, 20, 800, {.minSpeed = 50});
+    chassis.moveToPose(49.5, 10, 180, 1500, {.lead = 0.2, .maxSpeed = 70}, false);
+
+    chassis.moveToPoint(49.5, 39, 1100, {.forwards = false}, false);
+    Wing.extend();
+    LongGoal();
 }

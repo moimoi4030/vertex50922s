@@ -4,7 +4,9 @@
 #include "globals.hpp"
 #include "helpers.hpp"
 #include "macro/color.hpp"
+#include "pros/abstract_motor.hpp"
 #include "pros/misc.h"
+#include "pros/motors.h"
 
 // initialize function. Runs on program startup
 void initialize() {
@@ -18,10 +20,14 @@ void initialize() {
             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
 
 			lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+			
             // delay to save resources
             pros::delay(100);
         }
     }); 
+	IntakeRoller.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	MidRoller.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	TopRoller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 }
 
 /**
@@ -62,11 +68,10 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	//Test();
+	left.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	right.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	Long7Rush();
-	//Long9();
-	//rightSide();
-	//soloAWP();
+	//Long8Center1();
 }
 
 /**
@@ -83,10 +88,27 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 
-
 void opcontrol() {
+	int currentMode = 0;
+
 	while (true) {
-		optical.set_led_pwm(100);
+		/*switch (currentMode) {
+			case 0:
+            	offSort();
+				master.clear_line(2);
+				master.print(2, 1, "OFF");
+            	break;
+			case 1:
+            	blueSort();
+				master.clear_line(2);
+				master.print(2, 1, "RED");
+            	break;
+			case 2:
+        		redSort();
+				master.clear_line(2);
+				master.print(2, 1, "BLUE");
+            	break;
+		}*/
 
 		// get left y and right y positions
 		int Power = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);  
@@ -95,7 +117,10 @@ void opcontrol() {
         chassis.arcade(Power, Turn, 1, 0.45);
 		
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-			switchSort();
+			currentMode += 1;
+			if(currentMode == 3) {
+				currentMode = 0;
+			}
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
@@ -104,30 +129,29 @@ void opcontrol() {
 		
 		// loader
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-			loader.toggle();
+			Loader.toggle();
 		}
 		
-		// sort + align	
+		// wing
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-			descore.toggle();
+			Wing.toggle();
 		}
 		
-		// intake
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-			intake();
-		// stage 1
+		// long goal
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+			LongGoal();
+		// low goal
 		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			stage1();
-		// stage 2
-		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-			stage2();
-		// stage 3
+			LowGoal();
+		// mid goal
 		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-			longGoal();
-		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
-			intakeHold();
+			MidGoal();
+		// intake
+		} else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+			Intake();
 		} else {
-			stop();
+			Stop();
 		}
+		pros::delay(10);
 	}
 }

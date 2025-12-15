@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "codeh2h",
+    "project_name": "Long7",
     "target": "v5",
     "templates": {
       "LemLib": {

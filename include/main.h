@@ -45,10 +45,6 @@
 #include "helpers.hpp"
 
 #include "macro/color.hpp"
-#include "macro/subsystem.hpp"
-
-#include "motion/ramsete.hpp"
-
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do

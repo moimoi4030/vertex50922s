@@ -1,6 +1,8 @@
+#include "helpers.hpp"
 #include "main.h"
-#include "color.hpp"
+#include "macro/color.hpp"
 #include "globals.hpp"
+#include "pros/vision.h"
 
 // color sort
 const int NONE = 0;
@@ -9,61 +11,76 @@ const int BLUE = 2;
 
 int detectColor() {
     int hue = optical.get_hue();
-    if(optical.get_proximity() < 150) {
+    if(optical.get_proximity() < 35) {
         return NONE;
     }
-    if(hue > 0 && hue < 10) {
+    if(hue > 0 && hue < 20) {
         return RED;
     }
-    if(hue > 220 && hue < 270) {
+    if(hue > 140 && hue < 300) {
         return BLUE;
     }
     return NONE;
 }
 
-void colorSort(int color) {
+/*void colorSort(int color) {
     if(detectColor() == color) {
-        stage3.move(-127);
-        pros::delay(400);
-
+        sup3.move(-600);
+        stage3.move_velocity(-600);
+        pros::delay(300);
+            
         intake();
-    } 
+    }
+}
+
+void intakeSort(int color) {
+    while(true) {
+        if(detectColor() == color) {
+            stop();
+            sup3.move_velocity(600);
+            pros::delay(300);
+            
+            intakeHold();
+            pros::delay(800);
+
+            break;
+        } 
+        pros::delay(10);
+    }
 }
 
 void redSort() { 
     colorSort(RED);
-    master.clear_line(0);
-    master.set_text(0, 0, "BLUE");
+    master.set_text(2, 1, "BLUE");
 }
 
 void blueSort() { 
     colorSort(BLUE);
-    master.clear_line(0);
-    master.set_text(0, 0, "RED");
+    master.set_text(2, 1, "RED");
 }
 
 void offSort() {
-    colorSort(NONE);
-    master.clear_line(0);
-    master.set_text(0, 0, "OFF");
+    master.set_text(2, 1, "OFF");
 }
 
-int currentMode = BLUE;
-
-void switchSort() {
-    if (currentMode == NONE) currentMode = BLUE;
-    else if (currentMode == BLUE) currentMode = RED;
-    else if (currentMode == RED) currentMode = NONE;
+/*void autoSort(int color) {
+    vision.set_auto_white_balance(true);
+    vision.set_exposure(37);
     
-    switch (currentMode) {
-        case BLUE:
-            blueSort();
-            break;
-        case RED:
-            redSort();
-            break;
-        case NONE:
-            offSort();
-            break;
+    pros::vision_signature_s_t RED_BALLS = vision.signature_from_utility(RED, 12655, 13829, 13242, -1, 307, 153, 11.000, 0);
+    pros::vision_signature_s_t BLUE_BALLS = vision.signature_from_utility(BLUE, -3355, -2731, -3043, 6117, 7581, 6849, 4.200, 0);
+    vision.set_signature(1, &RED_BALLS);
+    vision.set_signature(2, &BLUE_BALLS);
+
+
+    while(true) {
+        pros::vision_object_s_t obj = vision.get_by_size(0);
+        if(color == RED && obj.signature == 1) {
+            sup3.move_velocity(600);
+        } else if(color == RED && obj.signature != 1) { 
+            stop();
+        }
+        pros::delay(10);
     }
-}
+}*/
+
