@@ -11,7 +11,7 @@ const int BLUE = 2;
 
 int detectColor() {
     int hue = optical.get_hue();
-    if(optical.get_proximity() < 35) {
+    if(optical.get_proximity() < 50) {
         return NONE;
     }
     if(hue > 0 && hue < 20) {
@@ -23,44 +23,24 @@ int detectColor() {
     return NONE;
 }
 
-/*void colorSort(int color) {
+void colorSort(int color) {
     if(detectColor() == color) {
-        sup3.move(-600);
-        stage3.move_velocity(-600);
+        TopRoller.move_velocity(-600);
         pros::delay(300);
             
-        intake();
-    }
-}
-
-void intakeSort(int color) {
-    while(true) {
-        if(detectColor() == color) {
-            stop();
-            sup3.move_velocity(600);
-            pros::delay(300);
-            
-            intakeHold();
-            pros::delay(800);
-
-            break;
-        } 
-        pros::delay(10);
+        TopRoller.move_velocity(600);
     }
 }
 
 void redSort() { 
     colorSort(RED);
-    master.set_text(2, 1, "BLUE");
 }
 
 void blueSort() { 
     colorSort(BLUE);
-    master.set_text(2, 1, "RED");
 }
 
 void offSort() {
-    master.set_text(2, 1, "OFF");
 }
 
 /*void autoSort(int color) {

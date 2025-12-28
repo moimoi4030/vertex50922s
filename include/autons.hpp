@@ -1,10 +1,11 @@
 #pragma once
 
-// async tasks
-void ekfLocalization(void*);
-
 void Test();
-void skill();
-void Long7Rush();
-void Long8Center1();
+void RightLong7Rush();
+void LeftLong7Rush();
+
+void LeftLongMid();
+
+void RightLong4Rush();
+void LeftLong4Rush();
 void soloAWP();

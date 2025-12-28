@@ -21,13 +21,28 @@ void initialize() {
 
 			lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
 			
+			// motors torque
+			pros::lcd::print(3, "Motor torque(front, mid, back)");
+			pros::lcd::print(4, "Left: %.2f", left.get_torque()); // left
+            pros::lcd::print(5, "Right: %.2f", right.get_torque()); // right
+
+			// motors velocity
+			pros::lcd::print(6, "Motor velocity(front, mid, back)");
+			pros::lcd::print(7, "Left: %.2f", left.get_actual_velocity()); // left
+            pros::lcd::print(8, "Right: %.2f, %.2f, %.2f", right.get_actual_velocity()); // right
+
+			// motors current draw
+			pros::lcd::print(9, "Motor current draw(front, mid, back)");
+			pros::lcd::print(10, "Left: %.2f", left.get_current_draw()); // left
+            pros::lcd::print(11, "Right: %.2f", right.get_current_draw()); // right
+
             // delay to save resources
             pros::delay(100);
         }
     }); 
 	IntakeRoller.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	MidRoller.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	TopRoller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	TopRoller.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 }
 
 /**
@@ -70,8 +85,9 @@ void competition_initialize() {}
 void autonomous() {
 	left.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	right.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	Long7Rush();
-	//Long8Center1();
+	// RightLong7Rush();
+	Test();
+	// skill();
 }
 
 /**
@@ -92,29 +108,23 @@ void opcontrol() {
 	int currentMode = 0;
 
 	while (true) {
-		/*switch (currentMode) {
+		switch (currentMode) {
 			case 0:
             	offSort();
-				master.clear_line(2);
-				master.print(2, 1, "OFF");
-            	break;
+				master.set_text(2, 1, "OFF");
 			case 1:
             	blueSort();
-				master.clear_line(2);
-				master.print(2, 1, "RED");
-            	break;
+				master.set_text(2, 1, "RED");
 			case 2:
         		redSort();
-				master.clear_line(2);
-				master.print(2, 1, "BLUE");
-            	break;
-		}*/
+				master.set_text(2, 1, "BLUE");
+		}
 
 		// get left y and right y positions
 		int Power = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);  
         int Turn  = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X); 
 
-        chassis.arcade(Power, Turn, 1, 0.45);
+        chassis.arcade(Power, Turn, 0, 0.35);
 		
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
 			currentMode += 1;
@@ -122,19 +132,15 @@ void opcontrol() {
 				currentMode = 0;
 			}
 		}
-
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-			autonomous();
-		}
 		
 		// loader
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
 			Loader.toggle();
 		}
 		
-		// wing
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-			Wing.toggle();
+		// trap
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+			Wing.retract();
 		}
 		
 		// long goal

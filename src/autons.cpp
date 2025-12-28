@@ -8,83 +8,40 @@
 
 // test   
 void Test() {
-
+    chassis.setPose(0, 0, 180);
+    chassis.swingToHeading(-90, DriveSide::RIGHT, 1000, {}, false);
+    chassis.setPose(0, 0, -90);
+    Intake();
+    chassis.moveToPoint(0, 17, 2500, {.maxSpeed = 70});
 }
 
 // autonomous routines
-void Long7Rush() {
+void RightLong7Rush() {
     chassis.setPose(15, 24, 0);
     Intake();
-
-    chassis.moveToPoint(24, 49, 850);
-    chassis.waitUntil(12);
-    Loader.extend();
-    /*chassis.turnToPoint(44.5, 24, 700);
-
-    chassis.moveToPoint(44.5, 24, 1200, {.minSpeed = 120});*/
-    chassis.moveToPose(48, 10, 180, 3200, {.lead = 0.4});
-
-    chassis.moveToPoint(48, 38, 1100, {.forwards = false}, false);
-    LongGoal();
-
-    pros::delay(3000);
-    Stop();
     Wing.extend();
 
-    chassis.moveToPoint(39.5, 36.5, 1000);
-    chassis.moveToPose(39.5, 55, 180, 5000, {.forwards = false, .lead = 0.1});
-    chassis.waitUntil(10);
-    Wing.retract();
-    
-    
+    chassis.moveToPoint(24, 49, 820);
+    chassis.waitUntil(12);
+    Loader.extend();
+    chassis.moveToPose(49, 8, 180, 2700, {.lead = 0.4});
 
-    /*chassis.setPose(0, 17, 0); // bắt đầu
-    intake();
+    chassis.moveToPoint(48, 37, 1400, {.forwards = false}, false);
+    LongGoal();
 
-    chassis.moveToPose(10, 42, 27, 1000); // 3 banh
-    chassis.waitUntil(15.3);
-    loader.extend();
-    chassis.waitUntilDone();
-    pros::delay(300);
-    loader.retract();
+    pros::delay(2000);
+    Stop();
+    Trap.retract();
 
-
-    chassis.turnToHeading(130, 700);
-
-    chassis.moveToPoint(35, 14, 1200);
-    chassis.turnToHeading(180, 700);
-    loader.extend();
-    chassis.waitUntilDone();
-    chassis.setPose(35, 15, 180);
-
-    chassis.moveToPoint(35, 0, 850, {.maxSpeed = 100});
-
-    chassis.waitUntilDone();
-    chassis.getPose();
-    chassis.moveToPoint(35, 20, 700, {.forwards = false});
-    chassis.waitUntilDone();
-    
-    loader.retract();
-    chassis.turnToHeading(-11, 900);
-    chassis.waitUntilDone();
-
-
-    chassis.moveToPoint(chassis.getPose().x - 2.3, 36, 1100);
-    chassis.waitUntilDone();
-    longGoal();
-
-    pros::delay(3200);
-    descore.extend();
-    chassis.swingToHeading(-90, DriveSide::RIGHT, 700, {.minSpeed = 100, .earlyExitRange = 11});
-    chassis.moveToPose(45.7, 55, 176, 1500, {.forwards = false});
-    chassis.waitUntil(30);
-    descore.retract();
-
-    chassis.waitUntilDone();
-    chassis.turnToHeading(-115, 1000);*/
+    chassis.moveToPoint(48, 28, 800, {}, false);
+    chassis.moveToPose(37.5, 35, 180, 1600, {.forwards = false, .lead = 0.4});
+    chassis.moveToPoint(36, 50, 5000, {.forwards = false}, false);
 }
 
-void Long8Center1() {
+void LeftLong7Rush() {}
+
+
+void LeftLongMid() {
     chassis.setPose(-15, 24, 0);
     Intake();
 
@@ -124,18 +81,101 @@ void soloAWP() {
     
 }
 
+
+
 void skill() {
     chassis.setPose(15, 24, 0);
     Intake();
 
-    chassis.moveToPoint(22.7, 49, 1000, {}, false);
+    chassis.moveToPoint(24, 49, 1500, {.maxSpeed = 80});
+    chassis.moveToPose(49, 15, 180, 1500, {.lead = 0.4, .maxSpeed = 80});
     Loader.extend();
-    chassis.turnToPoint(49.5, 20, 600);
+    chassis.moveToPoint(49, 11, 1000, {.maxSpeed = 60});
+    pros::delay(3000);
 
-    chassis.moveToPoint(49.5, 20, 800, {.minSpeed = 50});
-    chassis.moveToPose(49.5, 10, 180, 1500, {.lead = 0.2, .maxSpeed = 70}, false);
+    chassis.moveToPoint(49, 20, 900, {.forwards = false, .maxSpeed = 80, .minSpeed = 80}, false);
+    Stop();
 
-    chassis.moveToPoint(49.5, 39, 1100, {.forwards = false}, false);
-    Wing.extend();
+    chassis.moveToPoint(56, 40, 1200, {.forwards = false, .maxSpeed = 80, .minSpeed = 70});
+    Loader.retract();
+
+    chassis.moveToPose(56, 90, 180, 5000, {.forwards = false, .maxSpeed = 80, .minSpeed = 70});
+    chassis.moveToPoint(46.5, 110, 3000, {.forwards = false, .maxSpeed = 80, .minSpeed = 70});
+
+    chassis.turnToHeading(0, 1000, {}, false);
+
+    chassis.setPose(49, 110, 0);
+    chassis.moveToPoint(49, 95, 1000, {.forwards = false, .maxSpeed = 70}, false);
     LongGoal();
+
+    pros::delay(2500);
+    Intake();
+    pros::delay(200);
+
+    Loader.extend();
+
+    chassis.moveToPoint(49, 124, 1500, {.maxSpeed = 60});
+    pros::delay(2000);
+
+    chassis.moveToPoint(49, 95, 1300, {.forwards = false, .maxSpeed = 70}, false); 
+    LongGoal();
+
+    pros::delay(1700);
+    Intake();
+    pros::delay(200);
+
+    chassis.moveToPoint(49, 110, 1000, {.maxSpeed = 80});
+
+    
+    Intake();
+    Loader.retract();
+    chassis.moveToPoint(27, 90, 1500, {.maxSpeed = 80, .minSpeed = 70});
+    chassis.moveToPoint(19, 45, 2000, {.maxSpeed = 80, .minSpeed = 70});
+
+    chassis.moveToPoint(-21, 45, 1500, {.maxSpeed = 80});
+    chassis.waitUntilDone();
+    Loader.extend();
+
+    chassis.turnToPoint(-12.5, 57, 1000, {.forwards = false});
+    chassis.moveToPoint(-12.5, 57, 1000, {.forwards = false, .maxSpeed = 70});
+    MidGoal();
+
+    pros::delay(3000);
+    Intake();
+    pros::delay(200);
+
+    chassis.moveToPoint(-26, 55, 2000, {.maxSpeed = 80});
+    Loader.retract();
+
+    chassis.moveToPose(-26, 95, 0, 6000, {.maxSpeed = 80});
+
+    /*chassis.moveToPoint(-55, 115, 2000, {.maxSpeed = 80});
+    chassis.turnToHeading(0, 2000);
+
+    Loader.extend();
+    chassis.moveToPoint(-57, 128, 1000, {.maxSpeed = 70});
+    pros::delay(3000);
+
+    chassis.moveToPoint(-40, 100, 2500, {.forwards = false, .maxSpeed = 80, .minSpeed = 70});
+    Loader.retract();
+
+    chassis.moveToPose(-38, 44, 0, 5000, {.forwards = false, .maxSpeed = 80, .minSpeed = 70});
+    chassis.moveToPoint(-53.5, 25, 2000, {.forwards = false, .maxSpeed = 80});
+    chassis.turnToHeading(180, 1000);
+    chassis.moveToPoint(-55.5, 38, 1000, {.forwards = false, .maxSpeed = 70});
+
+    LongGoal();
+
+    pros::delay(3000);
+    Intake();
+    pros::delay(200);
+
+    chassis.moveToPoint(-53, 10, 1500, {.maxSpeed = 60});
+    pros::delay(3000);
+    chassis.moveToPoint(-55.5, 38, 2000, {.forwards = false, .maxSpeed = 70});
+
+    LongGoal();
+    pros::delay(3000);
+    Intake();
+    pros::delay(200);*/
 }
