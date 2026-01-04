@@ -9,38 +9,21 @@ const int NONE = 0;
 const int RED = 1;
 const int BLUE = 2;
 
-int detectColor() {
-    int hue = optical.get_hue();
-    if(optical.get_proximity() < 50) {
-        return NONE;
-    }
-    if(hue > 0 && hue < 20) {
-        return RED;
-    }
-    if(hue > 140 && hue < 300) {
-        return BLUE;
-    }
-    return NONE;
-}
 
-void colorSort(int color) {
-    if(detectColor() == color) {
+void redSort() { 
+    if(optical.get_hue() > 340 || optical.get_hue() < 20) {
         TopRoller.move_velocity(-600);
-        pros::delay(300);
-            
+    } else {
         TopRoller.move_velocity(600);
     }
 }
 
-void redSort() { 
-    colorSort(RED);
-}
-
 void blueSort() { 
-    colorSort(BLUE);
-}
-
-void offSort() {
+    if(optical.get_hue() > 210 && optical.get_hue() < 270) {
+        TopRoller.move_velocity(-600);
+    } else {
+        TopRoller.move_velocity(600);
+    }
 }
 
 /*void autoSort(int color) {

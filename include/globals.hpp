@@ -13,24 +13,24 @@
 inline pros::Controller master(pros::E_CONTROLLER_MASTER);
 
 // drivetrain
-inline pros::MotorGroup left({-16, -17, -19}, pros::MotorGearset::blue);
-inline pros::MotorGroup right({5, 9, 20}, pros::MotorGearset::blue);
+inline pros::MotorGroup left({-3, -8, -10}, pros::MotorGearset::blue);
+inline pros::MotorGroup right({4, 5, 9}, pros::MotorGearset::blue);
 
 // subsystems
-inline pros::Motor TopRoller(-6, pros::MotorGearset::blue);
-inline pros::Motor MidRoller(4, pros::MotorGearset::blue);
-inline pros::Motor IntakeRoller(8, pros::MotorGearset::blue);
+inline pros::Motor TopRoller(-19, pros::MotorGearset::blue);
+inline pros::Motor MidRoller(7, pros::MotorGearset::blue);
+inline pros::Motor IntakeRoller(11, pros::MotorGearset::blue);
 
 // pneumatics
-inline pros::adi::Pneumatics Loader('A', 0);
-inline pros::adi::Pneumatics Trap('B', 0);
-inline pros::adi::Pneumatics Wing('C', 0);
+inline pros::adi::Pneumatics Loader('H', 0);
+inline pros::adi::Pneumatics Trap('A', 0);
+inline pros::adi::Pneumatics Wing('B', 0);
 
 // sensors
 inline pros::Optical optical(2);
-inline pros::Imu imu(7);
-inline pros::Rotation horizontal_encoder(1);
-inline pros::Rotation vertical_encoder(-18);
+inline pros::Imu imu(18);
+inline pros::Rotation horizontal_encoder(16);
+inline pros::Rotation vertical_encoder(-20);
 
 
 extern lemlib::Drivetrain drivetrain;

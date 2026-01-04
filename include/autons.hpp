@@ -1,11 +1,11 @@
 #pragma once
 
 void Test();
-void RightLong7Rush();
-void LeftLong7Rush();
+void ElimRight();
+void ElimLeft();
 
-void LeftLongMid();
+void QualiLeft();
+void QualiRight();
 
-void RightLong4Rush();
-void LeftLong4Rush();
-void soloAWP();
+void Counter7Rush();
+void SoloAWP();

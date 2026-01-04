@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Long7",
+    "project_name": "PushBack",
     "target": "v5",
     "templates": {
       "LemLib": {

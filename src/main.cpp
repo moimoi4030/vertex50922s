@@ -85,8 +85,11 @@ void competition_initialize() {}
 void autonomous() {
 	left.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	right.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	// RightLong7Rush();
-	Test();
+	//ElimRight();
+	//ElimLeft();
+	//QualiLeft();
+	QualiRight();
+	//Test();
 	// skill();
 }
 
@@ -104,31 +107,34 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 
+
+
 void opcontrol() {
 	int currentMode = 0;
 
+
 	while (true) {
-		switch (currentMode) {
+		optical.set_led_pwm(100);
+		/*switch (currentMode) {
 			case 0:
-            	offSort();
-				master.set_text(2, 1, "OFF");
-			case 1:
-            	blueSort();
 				master.set_text(2, 1, "RED");
-			case 2:
-        		redSort();
+				blueSort();
+				break;
+			case 1:
 				master.set_text(2, 1, "BLUE");
-		}
+				redSort();
+				break;
+		}*/
 
 		// get left y and right y positions
 		int Power = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);  
         int Turn  = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X); 
 
-        chassis.arcade(Power, Turn, 0, 0.35);
+        chassis.arcade(Power, 0.7 *Turn, 1, 0.45);
 		
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
 			currentMode += 1;
-			if(currentMode == 3) {
+			if(currentMode == 2) {
 				currentMode = 0;
 			}
 		}
@@ -141,6 +147,8 @@ void opcontrol() {
 		// trap
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
 			Wing.retract();
+		} else {
+			Wing.extend();
 		}
 		
 		// long goal

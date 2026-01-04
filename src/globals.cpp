@@ -9,14 +9,14 @@ lemlib::Drivetrain drivetrain (&left,
                               10.5, 
                               3.25, 
                               450,
-                              6
+                              4
 );
 
 
 // horizontal tracking wheel
 lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, 2, -3);
 // vertical tracking wheel
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, 2, 0.5);
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, 2, 0.4);
 
 // odometry settings
 lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel 1

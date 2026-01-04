@@ -9,20 +9,20 @@
 void Intake() {
   IntakeRoller.move_velocity(600);
   MidRoller.move_velocity(600);
-  TopRoller.move_velocity(200);
+  TopRoller.move_velocity(400);
   Trap.retract();
 }
 
 void LowGoal() {
-  IntakeRoller.move_velocity(-600);
-  MidRoller.move_velocity(-600);
+  IntakeRoller.move_velocity(-400);
+  MidRoller.move_velocity(-150);
   TopRoller.move_velocity(-300);
 }
 
 void MidGoal() {
-  IntakeRoller.move_velocity(300);
-  MidRoller.move_velocity(300);
-  TopRoller.move_velocity(-150);
+  IntakeRoller.move_velocity(400);
+  MidRoller.move_velocity(400);
+  TopRoller.move_velocity(-600);
 }
 
 void LongGoal() {
